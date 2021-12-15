@@ -26,7 +26,7 @@ int CURRENTSPEEDRIGHT = 0;
 void Motor_Init(void){
     // The address range from 0x40 to 0x5F.
     PCA9685_Init(0x40, 0x41);
-    PCA9685_SetPWMFreq(100);
+    PCA9685_SetPWMFreq(1000);
 }
 
 void Motor_Handler(int signo)
@@ -46,72 +46,81 @@ void Stop_Motors(){
         PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 0);
 }
 
-void Drive_Forward(int speed){
-    if(speed > 100){
+void drive_Forward(){
+   /* if(speed > 100){
 
         speed = 100;
         printf("Speed is <= 100\n Speed was set to 100\n");
 
-    }
-     // leftside
-     // an1 = 1, an2 = 0 backwards
-     // an1 = 0, an2 = 1 forwards
-     CURRENTSPEEDLEFT = speed;
-     CURRENTSPEEDRIGHT = speed;
-     PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, CURRENTSPEEDLEFT);
-     PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
-     PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
+    }*/
+
+    //leftside
+    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 100);
+    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
+
+    PCA9685_SetLevel(BIN1_RIGHTSIDE  , 1);
+    PCA9685_SetLevel(BIN2_RIGHTSIDE , 0);
+
+    //rightside
+    PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
+    PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
+}
+void reverse(){
+    // leftside
+    // an1 = 1, an2 = 0 backwards
+    // an1 = 0, an2 = 1 forwards
+    // CURRENTSPEEDLEFT = speed;
+    //cURRENTSPEEDRIGHT = speed;
+    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 100);
+    PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
+    PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
 
     // rightside
     // bn1 = 1, bn2 = 0 backwards
     // bn1 = 0, bn2 = 1 forwards
-    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, CURRENTSPEEDRIGHT);
+    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
     PCA9685_SetLevel(BIN1_RIGHTSIDE , 1);
     PCA9685_SetLevel(BIN2_RIGHTSIDE, 0);
 
-
-}
-void Drive_Backwards(){
-    //leftside
-    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, CURRENTSPEEDLEFT);
-    PCA9685_SetLevel(BIN1_RIGHTSIDE  , 0);
-    PCA9685_SetLevel(BIN2_RIGHTSIDE , 1);
-
-    //rightside
-    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, CURRENTSPEEDRIGHT);
-    PCA9685_SetLevel(AIN1_LEFTSIDE, 1);
-    PCA9685_SetLevel(AIN2_LEFTSIDE, 0);
 }
 
 //To turn left, the left wheels turn more slowly than the right ones.
 //WE NEED TO CHANGE SPEED AGIN TO HAVE BOTH WHEELS RUNNING AT SAME SPEED
 // ONCE TURN IS FINISHED
-void Drive_Forward_Right(){
+void turnLeft(){
     //rightside
-    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 50);
+    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE,100);
+    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE,100);
     PCA9685_SetLevel(BIN1_RIGHTSIDE  , 1);
     PCA9685_SetLevel(BIN2_RIGHTSIDE  , 0);
 
     //leftside
-    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
-    PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
-    PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
+    //orginal 01
+
+
+    PCA9685_SetLevel(AIN1_LEFTSIDE, 1);
+    PCA9685_SetLevel(AIN2_LEFTSIDE, 0);
+
 
 }
 
 //To turn right, the RIGHT wheels turn more slowly than the right ones
 //WE NEED TO CHANGE SPEED AGIN TO HAVE BOTH WHEELS RUNNING AT SAME SPEED
 // ONCE TURN IS FINISHED
-void Drive_Forward_Left(){
-    //leftside
-    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 100);
-    PCA9685_SetLevel(BIN1_RIGHTSIDE , 1);
-    PCA9685_SetLevel(BIN2_RIGHTSIDE  , 0);
-
+void turnRight(){
     //rightside
-    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 50);
+    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
+    PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 100);
+
+    PCA9685_SetLevel(BIN1_RIGHTSIDE  , 0);
+    PCA9685_SetLevel(BIN2_RIGHTSIDE  , 1);
+
+    //leftside
+    //orginal 01
     PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
     PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
+
+
 }
 
 void Change_Motor_Speed(int side, int speed){

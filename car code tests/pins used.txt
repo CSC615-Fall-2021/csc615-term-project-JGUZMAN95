@@ -10,14 +10,14 @@ MAKE SURE PINS 2,3,4 ARE CLEAR
 WILL CAUSE INTERFERENCE IN I2C COMMUNICATION
 
 ECHO:
-front echo pins: 20, 21
+front echo pins: Trig: 24, Echo: 23
 
 left echo pins: 17, 27
 
 right echo pins: 14, 15
 
 LINE SENSOR: 
-left line pins: 0
+left line pins: 10
 
 right line pins: 22
 

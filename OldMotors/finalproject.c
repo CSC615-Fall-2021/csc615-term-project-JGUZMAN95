@@ -13,11 +13,11 @@
 
 //assign pins
 #define LINE_SENSOR_ONE 0
-#define LINE_SENSOR_TWO 4
+#define LINE_SENSOR_TWO 22
 
 
 
-//values of linesensor to to know wether on or off line
+//values of line sensor to know whether on or off the line
 //0 == on the line
 //1 == off the line
 int leftLineOuput ;

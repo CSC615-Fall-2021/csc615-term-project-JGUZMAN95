@@ -51,5 +51,3 @@ double leftEchoDistance()
   double finalDistance = (elapsedTime * SPEED_OF_SOUND) / 2;
   return finalDistance;
 }
-
-

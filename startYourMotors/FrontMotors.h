@@ -24,10 +24,10 @@ void Change_Motor_Speed(int side, int speed);
 void Stop_Motors();
 void Motor_Init(void);
 void Motor_Handler(int signo);
-void Drive_Forward(int speed);
-void Drive_Backwards();
-void Drive_Forward_Left();
-void Drive_Forward_Right();
+void drive_Forward();
+void reverse();
+void turnLeft();
+void turnRight();
 void Change_Motor_Speed(int side, int speed);
 
 

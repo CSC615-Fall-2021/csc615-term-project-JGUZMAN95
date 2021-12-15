@@ -16,7 +16,7 @@ CC=gcc
 CFLAGS= -lwiringPi
 
 $(ROOTNAME):
-	$(CC) -o $(ROOTNAME) $(ROOTNAME).c PCA9685_1.c Motors.c  DEV_Config_1.c -lm $(CFLAGS)
+	$(CC) -o $(ROOTNAME) $(ROOTNAME).c PCA9685_1.c Motors.c  DEV_Config_1.c echoSensor.c -lm $(CFLAGS)
 
 
 clean:
