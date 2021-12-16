@@ -72,13 +72,14 @@ void reverse(){
     // CURRENTSPEEDLEFT = speed;
     //cURRENTSPEEDRIGHT = speed;
     PCA9685_SetPwmDutyCycle(PWM_LEFTSIDE, 100);
+    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
+
     PCA9685_SetLevel(AIN1_LEFTSIDE, 0);
     PCA9685_SetLevel(AIN2_LEFTSIDE, 1);
 
     // rightside
     // bn1 = 1, bn2 = 0 backwards
     // bn1 = 0, bn2 = 1 forwards
-    PCA9685_SetPwmDutyCycle(PWM_RIGHTSIDE, 100);
     PCA9685_SetLevel(BIN1_RIGHTSIDE , 1);
     PCA9685_SetLevel(BIN2_RIGHTSIDE, 0);
 
