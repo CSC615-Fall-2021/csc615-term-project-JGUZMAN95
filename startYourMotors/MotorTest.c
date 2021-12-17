@@ -80,7 +80,7 @@ void objectAvoidance(void){
 
         leftDistance = leftEchoDistance();
         frontDistance = frontEchoDistance();
-
+/*
 // turn right until between 0 - 15 cm - left echo
 //0.0 < frontDistance && frontDistance <= 15.0
 
@@ -96,10 +96,10 @@ void objectAvoidance(void){
 //    }
 
 //     if(leftDistance > 10.0 && leftDistance < 16.6 && frontDistance > 20.0){
-        if(leftDistance > 11.52 && leftDistance < 25.6 && frontDistance > 18.5){
+        if(leftDistance > 11.52 && leftDistance < 26.6 && frontDistance > 18.5){
             printf("turn forward  %f\n\n",leftDistance);
             drive_Forward();
-            if(leftDistance <= 18.28 && leftDistance >= 13.56 && frontDistance >= 3.85){
+            if(leftDistance < 17.28 && leftDistance > 14.56 && frontDistance > 3.90){
                 printf("turn left\n");
                 turnLeft();
             }else{
@@ -116,10 +116,39 @@ void objectAvoidance(void){
 
 
         //if( )
+        */
 
+if(leftDistance > 42.5 ){
+    turnLeft();
+    printf("left\n");
+    if(frontDistance < 70.0 && leftDistance > 43.0){
+        drive_Forward();
+        while(frontDistance > 0){
+            turnRight();
+        }
+
+        printf("last Forward\n");
+
+    }
+}
+if(leftDistance < 40.0 ){
+    drive_Forward();
+    printf("forward\n");
+
+}
+if((leftLineOuput == 1 && rightLineOuput == 1) || (leftLineOuput == 0 && rightLineOuput == 1) ||(leftLineOuput == 1 && rightLineOuput == 0)){
+    while(rightLineOuput != 0){
+        turnRight();
+        if(rightLineOuput == 0 ){
+            break;
+            break;
+        }
     }
 
 }
+    }
+}
+
 
 int main(int argc, char** argv)
 {
@@ -195,6 +224,10 @@ for(;;){
 
     for(;;){
         double frontDistance = frontEchoDistance();
+        double leftDistance = leftEchoDistance();
+
+        int previousLeft;
+        int previousRight;
 
 
 // both must be off line we are reading the black line to be able
@@ -202,16 +235,28 @@ for(;;){
 
 /* ********************** ECHO SENSOR CODE ********************************/
 // stop motors between 0 - 15 cm - front echo
-        if( 0.0 < frontDistance && frontDistance <= 13.0) {
-            Stop_Motors();
-            turnRight();
-            if(leftLineOuput == 0 && rightLineOuput == 0){
-                objectAvoidance();
-            }else{
-                drive_Forward();
-            }
+        if( 0.0 < frontDistance && frontDistance < 19.5) {
+            printf("object\n");
+            //adding left sensor
+            if(leftDistance > 100.00 || leftDistance > 20.0 && frontDistance < 18.0  ){
+               while(leftDistance > 100.00){
+                   double frontDistance = frontEchoDistance();
+                   double leftDistance = leftEchoDistance();
+                    turnRight();
+                   if(leftDistance < 24.0){
+                       drive_Forward();
+                       if(leftLineOuput == 0 && rightLineOuput == 0 && leftDistance < 50.0){
+                           printf("avoidance\n");
+                           objectAvoidance();
+                           break;
+                       }
 
+                   }
+
+               }
+            }
         }
+
 
 
 
@@ -219,6 +264,8 @@ for(;;){
 
 /* ********************** LINE SENSOR CODE ********************************/
         if(leftLineOuput == 0 && rightLineOuput == 0){
+            previousLeft = leftLineOuput;
+            previousRight = rightLineOuput;
             drive_Forward();
 
         }
@@ -226,6 +273,8 @@ for(;;){
         //if left line is black then we turn left to follow the line
         //turn until both sensors are on 1 then move forward
         if (leftLineOuput == 0 && rightLineOuput == 1){
+            previousLeft = leftLineOuput;
+            previousRight = rightLineOuput;
             turnRight();
 
         }
@@ -233,15 +282,38 @@ for(;;){
         //if Right line is on black then we turn right
         //turn until both sensors are on 1 then move forward
         if (leftLineOuput == 1 && rightLineOuput == 0){
+            previousLeft = leftLineOuput;
+            previousRight = rightLineOuput;
             turnLeft();
 
         }
+
         if(leftLineOuput == 1 && rightLineOuput == 1){
+            if(previousLeft = 0 && previousRight == 1 ){
+                turnRight();
+//                drive_Forward();
+                delay(615);
 
-            drive_Forward();
+                if(leftLineOuput ==  0 && rightLineOuput == 0){
+                    drive_Forward();
 
+                }else{
+                    turnRight();
+                }
+            }
+            if(previousLeft = 1 && previousRight == 0 ){
+                turnLeft();
+//                drive_Forward();
+                delay(615);
+                if(leftLineOuput == 0 && rightLineOuput == 0){
+                    turnLeft();
+                }else{
+                    turnLeft();
+                }
+                //turnLeft();
+
+            }
         }
-
 
 
 
